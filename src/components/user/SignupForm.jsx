@@ -1,20 +1,37 @@
-import { Card, Button,Flex, Form, Input } from 'antd';
+import { Card, Button,Flex, Form, Input, Modal } from 'antd';
+import axios from 'axios';
+import { useState } from 'react';
+import ProfilePage from './ProfilePage';
 
-const onFinish = (values) => {
-    console.log('Success:', values);
-};
 
-const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
 
-const SignupForm = () => (
-    <>
-        {/* <div style={{ display: 'grid', placeItems: 'center', minHeight: '80vh' }}>
-            <div style={{ fontSize: '3rem', borderStyle: "solid", borderRadius: '10%', display: 'flex', flexDirection: 'column', padding: '20px' }}>
-                <p style={{ margin: 'auto', marginBottom: '35px' }}>Login</p> */}
+const SignupForm = ({setSigningUp}) => {
+    const [failedSignup, setFailedSignup] = useState(false);
+
+    const onFinish = async (values) => {
+        try{
+        const signupResponse = await axios.post("http://localhost:5999/users", values);
+        console.log(signupResponse);
+        if(!signupResponse.data.success){
+            setFailedSignup(true);
+        }
+        setSigningUp(false);
+    }catch(error){
+        setFailedSignup(true);
+    }
+    };
+    
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
+    const handleModalClose = () => {
+        setFailedSignup(false);
+    };
+
+   return <>
                 <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <Card title="Signup Form" style={{ maxWidth: 600, margin: 'auto' }}>
+                <Card title="Signup Form" style={{ maxWidth: 1000, margin: 'auto' }}>
                 <Form
                     name="basic"
                     labelCol={{
@@ -83,13 +100,14 @@ const SignupForm = () => (
                             Submit
                         </Button>
                     </Form.Item>
-                    <Form.Item><Button type='text'>Log In</Button></Form.Item>
+                    <Form.Item><Button type='text' onClick={()=>setSigningUp(false)}>Log In</Button></Form.Item>
                     </Flex>
                 </Form>
                 </Card>
                 </div>
-            {/* </div>
-        </div> */}
+                <Modal open={failedSignup} onOk={handleModalClose} onCancel={handleModalClose} >
+                    <div>Failed To Sign Up</div>
+                </Modal>
     </>
-);
+}
 export default SignupForm;

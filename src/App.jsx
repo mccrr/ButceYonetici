@@ -1,28 +1,19 @@
 import { useState } from "react";
-import ExpenseList from "./components/ExpenseList";
-import IncomeForm from "./components/ExpenseForm";
-import LoginForm from "./components/user/Loginform";
+import ItemList from "./components/ItemList";
+import LoginForm from "./components/user/LoginForm";
 import SignupForm from "./components/user/SignupForm";
+import "./css/main.css";
 
 
 const App = () => {
-const [dataSource, setDataSource] = useState([
-  {
-    key: 1,
-    amount: 100,
-    title: 'Ice cream',
-    date: new Date(26,6,24)
-  },
-  {
-    key: 2,
-    amount: 850,
-    title: 'Laptop',
-    date: new Date(17,4,24)
-  },
-]);
+  const [username, setUsername] = useState('');
+  const [signingUp, setSigningUp] = useState(false);
+  const [user, setUser] = useState(false);
 
   return <>
-    <ExpenseList dataSource={dataSource} setDataSource={setDataSource}></ExpenseList>
+    {(!username && !signingUp) && <LoginForm setUser={setUser} setSigningUp={setSigningUp} setUsername={setUsername} />}
+    {(username && !signingUp) && <ItemList user={user} setUser={setUser} username={username} setUsername={setUsername}></ItemList>}
+    {signingUp && <SignupForm setSigningUp={setSigningUp}></SignupForm>}
     </>
 };
 

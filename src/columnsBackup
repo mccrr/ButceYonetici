@@ -1,0 +1,24 @@
+
+/*     const columns = [
+        { title: 'Title', dataIndex: 'title', key: 'title', width: '22%', sorter: (a, b) => a.title.localeCompare(b.title) },
+        {
+            title: 'Amount', dataIndex: 'amount', key: 'amount', width: '22%', render: (amount, record) => (
+                <span style={{ color: record.type === "income" ? 'green' : 'red', fontSize: '1.8rem' }}>
+                    {record.type === "income" ? '+' : '-'}{amount}$
+                </span>
+            )
+        },
+        {
+            title: 'Date', dataIndex: 'date', key: 'date', width: '22%', render: (date) => <span>{new Date(date).toLocaleDateString()}</span>,
+            sorter: (a, b) => new Date(a.date) - new Date(b.date)
+        },
+        {
+            title: 'Actions', dataIndex: 'actions', width: '34%', render: (text, record) => (
+                <div>
+                    <Button type="primary" style={{ marginRight: '10px' }} onClick={record.type === "expense" ?
+                        () => handleExpEdit(record) : () => handleIncEdit(record)}>Update</Button>
+                    <Button danger style={{ marginRight: '10px' }} onClick={() => showDeleteModal(record)}>Delete</Button>
+                </div>
+            ),
+        }
+    ]; */

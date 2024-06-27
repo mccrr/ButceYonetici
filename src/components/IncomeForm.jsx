@@ -1,33 +1,35 @@
 import { Card, Form, Input, Button, InputNumber, DatePicker, Select } from 'antd';
 import axios from 'axios';
 
-const ExpenseForm = ({setSelectedExpense, initialValues, username, updating, onCancel, setIsExpenseModalOpen, onDataChange}) => {
+const IncomeForm = ({setSelectedIncome, initialValues, updating, onCancel, setIsIncomeModalOpen, onDataChange, username}) => {
   const [form] = Form.useForm();
   form.setFieldsValue(initialValues)
 
   const handleSubmit = async (values) => {
-    const reqBody = {...values, type: "expense", username};
+    const reqBody = {...values, type: "income", username};
     if(updating){
-      await axios.put(`http://localhost:5999/expenses/${initialValues._id}`, reqBody);
+      await axios.put(`http://localhost:5999/income/${initialValues._id}`, reqBody);
     }else{
-    await axios.post("http://localhost:5999/expenses/", reqBody);
+    await axios.post("http://localhost:5999/income/", reqBody);
     }
-    setIsExpenseModalOpen(false);
+    setIsIncomeModalOpen(false);
     onDataChange();
     form.resetFields();
-    setSelectedExpense(null);
+    setSelectedIncome(null);
   };
 
   const handleCancel = ()=>{
-    setSelectedExpense(null);
-    form.resetFields();
+    console.log('handleCancel function');
+    setSelectedIncome(null);
+    setIsIncomeModalOpen(false);
     onCancel();
+    form.resetFields();
   }
 
 
   return (
     <Card style={{ margin: 'auto', maxWidth: '400px' }}>
-      <Form form={form} onFinish={handleSubmit} onCancel={handleCancel} layout='vertical'>
+      <Form form={form} onFinish={handleSubmit} layout='vertical' onCancel={handleCancel}>
         <Form.Item
           name="title"
           label="Title"
@@ -42,13 +44,14 @@ const ExpenseForm = ({setSelectedExpense, initialValues, username, updating, onC
         >
           <Input />
         </Form.Item>
-        
+
         <Form.Item
-          name="category"
-          label="Category"
+          name="source"
+          label="Source"
         >
           <Input />
         </Form.Item>
+        
 
         <Form.Item
           name="amount"
@@ -58,12 +61,6 @@ const ExpenseForm = ({setSelectedExpense, initialValues, username, updating, onC
           <InputNumber min={0} style={{ width: '100%' }} />
         </Form.Item>
 
-        <Form.Item
-          name="paymentMethod"
-          label="PaymentMethod"
-        >
-          <Select options={[{value:"Credit Card", label: "Credit Card"},{value:"Cash",label:"Cash"}]} />
-        </Form.Item>
 
         <Form.Item
         name="date"
@@ -85,4 +82,4 @@ const ExpenseForm = ({setSelectedExpense, initialValues, username, updating, onC
   );
 };
 
-export default ExpenseForm;
+export default IncomeForm;
